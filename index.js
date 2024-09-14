@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const Listening = require('./models/listing')
+const path = require("path")
 
 
 const mongourl = "mongodb://127.0.0.1:27017/GetPet"
@@ -16,27 +17,36 @@ const mongourl = "mongodb://127.0.0.1:27017/GetPet"
 }
 connectdb()
 
-app.get("/",(req,res)=>{
-   const new_listning = new Listening({
-        pet_id: '4134445',
-  seller_id: '67890',
-  pet_name: 'Buddy',
-  pet_type: 'Dog',
-  breed: 'Golden Retriever',
-  age: 2,
-  description: 'Friendly and playful dog, great with kids.',
-  location: 'New York, USA'
-    })
+app.set("view engine","ejs");
+app.set("views",path.join(__dirname,"views"))
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
-    new_listning.save()
-    .then((res)=>{
-        console.log("saved "+res)
+app.get("/",(req,res)=>{
+res.send("working")
+})
+
+app.get("/all_listing",(req,res)=>{
+    const all_listing = Listening.find()
+    .then((result)=>{
+        res.render("listing/index",{result})
     })
     .catch((e)=>{
-        console.log("error:"+e)
+        console.log("all_listing error:"+e)
     })
 })
 
+app.get("/all_listing/:id",(req,res)=>{
+    let {id} = req.params;
+    Listening.find({"pet_id":id})
+    .then((result)=>{
+        console.log(result)
+       res.render("listing/Show.ejs",{data:result[0]})
+    })
+    .catch((e)=>{
+        console.log("error at show route")
+    })
+})
 app.listen("8080",()=>{
     console.log("Server is Listening to port 8080")
 })

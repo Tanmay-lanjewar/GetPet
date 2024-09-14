@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetPet</title>
+</head>
+<body>
+    <h3>All Listing</h3>
+    <% for(data of result){ %>
+       <a href="/all_listing/<%= data.pet_id%>"> <%= data.pet_name %></a><br>
+        <% } %>
+    
+</body>
+</html>
