@@ -16,7 +16,7 @@ const ListingSchema = mongoose.Schema({
   },
   pet_type: {
     type: String,
-    require: true,
+    require: true
   },
   breed : {
     type: String,

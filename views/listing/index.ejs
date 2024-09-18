@@ -7,6 +7,12 @@
 </head>
 <body>
     <h3>All Listing</h3>
+
+    <!-- add new: -->
+    <form method="get" action="/listing/new">
+        <button>ADD</button>
+    </form>
+
     <% for(data of result){ %>
        <a href="/all_listing/<%= data.pet_id%>"> <%= data.pet_name %></a><br>
         <% } %>
